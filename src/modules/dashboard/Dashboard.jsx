@@ -9,12 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Home, Book, People, ExitToApp } from '@material-ui/icons';
+import { Home, Book, People, ExitToApp, Settings } from '@material-ui/icons';
 
 import {
     Switch,
     useHistory,
-    useParams,
 } from "react-router-dom";
 
 import routes from './routes.js';
@@ -36,6 +35,11 @@ const MENU = [
         to: '/dashboard/users',
         name: 'Usuarios',
         icon: 'People'
+    },
+    {
+        to: '/dashboard/settings',
+        name: 'Configurações',
+        icon: 'Settings'
     },
 ];
 
@@ -67,14 +71,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
     const classes = useStyles();
     const history = useHistory();
-    const { slug } = useParams();
-
 
     const mapIcon = {
         "Home": <Home />,
         "Book": <Book />,
         "People": <People />,
-        "out": <ExitToApp />
+        "out": <ExitToApp />,
+        "Settings": <Settings />
     }
 
     function handleClick(to) {
@@ -86,9 +89,7 @@ export default function Dashboard() {
             <CssBaseline />
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
-                        Concert Master
-          </Typography>
+                    <Typography variant="h6" noWrap>  Concert Master </Typography>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -109,10 +110,10 @@ export default function Dashboard() {
                                 <ListItemText primary={item.name} />
                             </ListItem>
                         ))}
-                        <ListItem button key={"LogOut"} onClick={() => { 
-                              localStorage.removeItem('token');
-                              localStorage.removeItem('name');
-                              history.push("/");                              
+                        <ListItem button key={"LogOut"} onClick={() => {
+                            localStorage.removeItem('token');
+                            localStorage.removeItem('name');
+                            history.push("/");
                         }}>
                             <ListItemIcon>{mapIcon["out"]}</ListItemIcon>
                             <ListItemText primary={"Sair"} />

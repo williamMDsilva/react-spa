@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
 
-import UserRepository from './repository/UserRepository';
+import {Auth} from './repository/UserRepository';
 
 const classes = {
     paper: {
@@ -37,6 +36,10 @@ const classes = {
         // position: 'absolute',
         // top: '50%',
     }
+}
+
+function handleHttpError (e){
+    console.log(e);
 }
 
 export default function Login() {
@@ -85,15 +88,14 @@ export default function Login() {
                         //className={classes.submit}
                         onClick={(event) => {
                             event.preventDefault();
-                            UserRepository.Auth(email, password)
+                            
+                            Auth(email, password)
                                 .then(({ data: user }) => {
                                     localStorage.setItem('token', user.token);
                                     localStorage.setItem('name', user.name);
                                     history.push("/dashboard");
 
-                                }).catch((e) => {
-                                    console.log(e);
-                                });
+                                }).catch(handleHttpError);
                         }}>
                         Entrar
                     </Button>
